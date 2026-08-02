@@ -1,0 +1,48 @@
+Endpoint Control:
+docker exec -it endpoint bash
+
+Remote to database:
+psql -h database -U temporaryadmin -d inventory_db
+
+Database Commands:
+\list --- Gives the list of Databases
+\c *DATABASENAME* --- Connects to this database
+\conninfo
+
+\dt --- List Tables
+\d TABLENAME* --- Describes a Table \d+ aswell but with more info
+\du --- See user roles
+
+\q --- Exit Postgres
+
+SQL Commands:
+CREATE TABLE table_name (
+	column_name data_type constraints,
+	column_name data_type constraints
+);
+
+Datatypes:
+	Numbers:
+		INTEGER
+		BIGINT
+		NUMERIC(10,2) --- Base 10 2 digits after comma
+	Text:
+		VARCHAR(100) --- String Length
+		TEXT --- Unlimited Length
+	Dates:
+		DATE
+		TIMESTAMP
+		TIMESTAMPTZ
+			Ex: created_at TIMESTAMPTZ DEFAULT NOW()
+	State:
+		BOOLEAN
+
+Primary Keys:
+	Sets the most important column.
+	While creating the table, let's say we add the following column:
+		id SERIAL
+	Set it as Primary:
+	id SERIAL PRIMARY KEY
+Foreign Keys:
+	Ex: supplier_id INTEGER REFERENCES suppliers(id)
+		The data in column suppliers_id in the present table MUST REFERENCE an existing id in the table suppliers.

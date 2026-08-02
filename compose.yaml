@@ -1,0 +1,37 @@
+name: Inventory_Infrastructure
+
+services:
+
+  endpoint:
+    container_name: endpoint
+    build: ./Endpoint
+    networks:
+      - database_network
+
+
+  database:
+    container_name: database
+    image: postgres:18
+    restart: always
+    environment:
+      POSTGRES_USER: temporaryadmin
+      POSTGRES_PASSWORD: temporarypassword
+      POSTGRES_DB: inventory_db
+    volumes:
+      - ./Database/data:/var/lib/postgresql
+      - ./Database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - database_network
+
+
+
+networks:
+  database_network:
+    ipam:
+      config:
+        - subnet: 10.64.0.0/24
+          gateway: 10.64.0.1
+          aux_addresses:
+            endpoint: 10.64.0.2
+            database: 10.64.0.5
+
