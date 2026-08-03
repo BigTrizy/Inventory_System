@@ -16,6 +16,17 @@ CREATE TABLE products (
 	supplier_id INTEGER NOT NULL REFERENCES suppliers(id) ON DELETE RESTRICT
 );
 
+CREATE TABLE transactions (
+	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	item_id INTEGER NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
+	item_quantity_changed INTEGER NOT NULL,
+	item_stock_before_transaction INTEGER NOT NULL,
+	item_stock_after_transaction INTEGER NOT NULL,
+	created_at TIMESTAMPTZ DEFAULT NOW(),
+	by_user VARCHAR(20) NOT NULL,
+	reason VARCHAR(50) NOT NULL
+);
+
 INSERT INTO suppliers (name, phone, address, description)
 VALUES 
 ('Dell', '123-456-7890', '1234 Dell Street', 'One letter away from being feared'),

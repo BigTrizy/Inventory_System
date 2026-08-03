@@ -22,8 +22,22 @@ services:
       - ./Database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temporaryadmin -d inventory_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-
+  webapi:
+    container_name: webapi
+    build: ./WebAPI
+    networks:
+      - database_network
+    ports:
+      - "9001:9001"
+    depends_on:
+      database:
+        condition: service_healthy
 
 networks:
   database_network:
@@ -33,5 +47,6 @@ networks:
           gateway: 10.64.0.1
           aux_addresses:
             endpoint: 10.64.0.2
+            webapi: 10.64.0.4
             database: 10.64.0.5
 
