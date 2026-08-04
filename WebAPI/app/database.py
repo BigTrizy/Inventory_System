@@ -22,14 +22,3 @@ def check_database():
     except Exception as e:
         print(e)
         return False
-
-def check_inventory():
-    try:
-        with get_connection() as connection:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM products")
-                return cursor.fetchall()
-
-    except Exception as e:
-        print(e)
-        return []
