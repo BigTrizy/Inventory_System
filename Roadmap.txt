@@ -1,0 +1,20 @@
+Next: Create separate Python files for connection to database and different requests types. Like return products, return providers, etc. 
+
+
+Ideas:
+	Add Supplier lookup to the WebAPI
+	Create Transactions
+		Add/Remove Stock
+		Change Critical Stock
+	Create Webserver
+		Basic Text Field for product search
+		Basic List for multiple products display
+	Create Authentication Server
+
+
+Done: 
+	Can now look for: 
+		All products: 127.0.0.1:9001/products 
+		Product(s) by name: 127.0.0.1:9001/products/search?name=%PRODUCTNAME%
+		Product by ID: 127.0.0.1:9001/products/%PRODUCTID%
+	 
