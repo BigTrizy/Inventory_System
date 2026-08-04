@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from scripts.database import check_database, check_inventory
+from scripts.database import check_database
+from scripts.requests.get_products import get_products, search_products, search_products_id
 
 
 app = FastAPI()
@@ -24,19 +25,14 @@ def health():
 
 @app.get("/products")
 def products():
-    inventory = check_inventory()
+    result = get_products()
+    return result
 
-    products = []
+@app.get("/products/search")
+def search_product(name: str):
+    return search_products(name)
 
-    for row in inventory:
-        products.append({
-            "id": row[0],
-            "sku": row[1],
-            "name": row[2],
-            "stock": row[3],
-            "stock_critical": row[4],
-            "description": row[5],
-            "supplier_id": row[6]
-        })
+@app.get("/products/{id}")
+def search_product_id(id: int):
+    return search_products_id(id)
 
-    return products
