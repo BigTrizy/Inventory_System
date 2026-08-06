@@ -6,7 +6,7 @@ services:
     container_name: endpoint
     build: ./Endpoint
     networks:
-      - database_network
+      - front_network
 
 
   database:
@@ -21,7 +21,7 @@ services:
       - ./Database/data:/var/lib/postgresql
       - ./Database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - database_network
+      - back_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U temporaryadmin -d inventory_db"]
       interval: 5s
@@ -32,21 +32,46 @@ services:
     container_name: webapi
     build: ./WebAPI
     networks:
-      - database_network
+      - back_network
     ports:
       - "9001:9001"
     depends_on:
       database:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f 127.0.0.1:9001/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  webserver:
+    container_name: webserver
+    build: ./WebServer
+    ports:
+      - "8080:80"
+    networks:
+      - front_network
+      - back_network
+    depends_on:
+      webapi:
+        condition: service_healthy
+
 
 networks:
-  database_network:
+  back_network:
     ipam:
       config:
         - subnet: 10.64.0.0/24
           gateway: 10.64.0.1
           aux_addresses:
-            endpoint: 10.64.0.2
             webapi: 10.64.0.4
             database: 10.64.0.5
 
+  front_network:
+    ipam:
+      config:
+        - subnet: 10.66.0.0/24
+          gateway: 10.66.0.1
+          aux_addresses:
+            endpoint: 10.66.0.2
+            webserver: 10.66.0.3
