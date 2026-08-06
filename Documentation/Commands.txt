@@ -46,3 +46,7 @@ Primary Keys:
 Foreign Keys:
 	Ex: supplier_id INTEGER REFERENCES suppliers(id)
 		The data in column suppliers_id in the present table MUST REFERENCE an existing id in the table suppliers.
+
+Python WebServer
+	python -m http.server 
+		from the folder where we want to host the webserver.
