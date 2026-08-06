@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from scripts.database import check_database
 from scripts.requests.get_products import get_products, search_products, search_products_id
+from scripts.requests.get_suppliers import get_suppliers
 
 
 app = FastAPI()
@@ -35,4 +36,9 @@ def search_product(name: str):
 @app.get("/products/{id}")
 def search_product_id(id: int):
     return search_products_id(id)
+
+@app.get("/suppliers")
+def suppliers():
+    result = get_suppliers()
+    return result
 

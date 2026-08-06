@@ -1,4 +1,5 @@
 Next: Create separate Python files for connection to database and different requests types. Like return products, return providers, etc. 
+Create WebServer to host basic search page.
 
 
 Ideas:
