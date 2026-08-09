@@ -22,9 +22,10 @@ CREATE TABLE transactions (
 	item_quantity_changed INTEGER NOT NULL,
 	item_stock_before_transaction INTEGER NOT NULL,
 	item_stock_after_transaction INTEGER NOT NULL,
+	transaction_type VARCHAR(15) NOT NULL,
 	created_at TIMESTAMPTZ DEFAULT NOW(),
 	by_user VARCHAR(20) NOT NULL,
-	reason VARCHAR(50) NOT NULL
+	reason TEXT NOT NULL
 );
 
 INSERT INTO suppliers (name, phone, address, description)

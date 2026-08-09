@@ -4,6 +4,8 @@ docker exec -it endpoint bash
 Remote to database:
 psql -h database -U temporaryadmin -d inventory_db
 
+docker exec -it database psql -U temporaryadmin -d inventory_db
+
 Database Commands:
 \list --- Gives the list of Databases
 \c *DATABASENAME* --- Connects to this database

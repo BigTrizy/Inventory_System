@@ -70,8 +70,8 @@ networks:
   front_network:
     ipam:
       config:
-        - subnet: 10.66.0.0/24
-          gateway: 10.66.0.1
+        - subnet: 10.65.0.0/24
+          gateway: 10.65.0.1
           aux_addresses:
-            endpoint: 10.66.0.2
-            webserver: 10.66.0.3
+            endpoint: 10.65.0.2
+            webserver: 10.65.0.3

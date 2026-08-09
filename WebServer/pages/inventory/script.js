@@ -1,11 +1,15 @@
+const backButton = document.getElementById("backButton");
+backButton.addEventListener("click", () => {
+    console.log("back clicked");
+	window.location.href = "/";
+});
+
 const loadButton = document.getElementById("loadButton");
 loadButton.addEventListener("click", loadProducts);
 
 const searchButton = document.getElementById("searchButton");
 searchButton.addEventListener("click", () => {
-
     const searchText = document.getElementById("productSearch").value;
-
     searchProducts(searchText);
 
 });
