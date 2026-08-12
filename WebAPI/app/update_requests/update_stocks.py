@@ -2,9 +2,8 @@ from scripts.database import get_connection
 from scripts.transactions_history.create_transaction import create_transaction
 
 
-def set_product_stock(id, qty):
-    user = "Trizy"
-    reason = "Test"
+def set_product_stock(id, qty, user, reason):
+ 
 
     with get_connection() as connection:
         with connection.cursor() as cursor:

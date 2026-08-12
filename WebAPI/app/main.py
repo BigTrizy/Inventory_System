@@ -3,7 +3,13 @@ from scripts.database import check_database
 from scripts.requests.get_products import get_products, search_products, search_products_id
 from scripts.requests.get_suppliers import get_suppliers
 from scripts.update_requests.update_stocks import set_product_stock 
+from pydantic import BaseModel
 
+class TransactionRequest(BaseModel):
+    id: int
+    qty: int
+    user: str
+    reason: str
 
 app = FastAPI()
 
@@ -30,9 +36,14 @@ def products():
     result = get_products()
     return result
 
-@app.post("/products/transaction")
-def update_products_stock(id: int, qty: int):
-    return set_product_stock(id, qty)
+@app.post("/products/update")
+def update_products_stock(transaction: TransactionRequest):
+    return set_product_stock(
+        transaction.id,
+        transaction.qty,
+        transaction.user,
+        transaction.reason
+    )
 
 @app.get("/products/search")
 def search_product(name: str):
