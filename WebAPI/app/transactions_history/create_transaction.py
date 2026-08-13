@@ -3,7 +3,7 @@ from scripts.database import get_connection
 
 def create_transaction(connection, item_id, qty, init_qty, end_qty, user, reason):
     transaction_type = "Restock"
-
+    #raise Exception("TEST ROLLBACK")
     if qty < 0:
         transaction_type = "Withdraw"
 

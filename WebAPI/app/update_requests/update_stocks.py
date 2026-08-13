@@ -48,12 +48,12 @@ def set_product_stock(id, qty, user, reason):
                 reason
             )
 
-            return {
-                "id": product[0],
-                "sku": product[1],
-                "name": product[2],
-                "Stock PreTransaction": current_stock,
-                "Stock Movement": qty,
-                "Stock PostTransaction": new_stock,
-                "Transaction ID Created": transaction_id_created
-            }
+        return {
+            "id": product[0],
+            "sku": product[1],
+            "name": product[2],
+            "Stock PreTransaction": current_stock,
+            "Stock Movement": qty,
+            "Stock PostTransaction": new_stock,
+            "Transaction ID Created": transaction_id_created
+        }
