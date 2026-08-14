@@ -28,6 +28,44 @@ CREATE TABLE transactions (
 	reason TEXT NOT NULL
 );
 
+CREATE TABLE access_levels (
+	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	name VARCHAR(20) UNIQUE NOT NULL,
+	description VARCHAR(100)
+);
+
+CREATE TABLE users (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    access_level INTEGER NOT NULL
+        REFERENCES access_levels(id)
+        ON DELETE RESTRICT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users_passwords (
+    password_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INTEGER NOT NULL
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+    password_hash VARCHAR(255) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO access_levels (name, description) 
+VALUES
+('Viewer', 'Read-Only'),
+('Editor', 'Read-Write'),
+('Manager', 'Read-Write and can modify transaction history');
+
+
+INSERT INTO users (username, access_level)
+VALUES
+('TrisoRO', 1),
+('TrizyRW', 2),
+('TrizyMan', 3);
+
 INSERT INTO suppliers (name, phone, address, description)
 VALUES 
 ('Dell', '123-456-7890', '1234 Dell Street', 'One letter away from being feared'),
