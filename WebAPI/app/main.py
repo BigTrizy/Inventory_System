@@ -3,6 +3,10 @@ from scripts.database import check_database
 from scripts.requests.get_products import get_products, search_products, search_products_id
 from scripts.requests.get_suppliers import get_suppliers
 from scripts.update_requests.update_stocks import set_product_stock 
+from scripts.authentication.create_user import create_user
+from scripts.authentication.password import compare_password
+
+
 from pydantic import BaseModel
 
 class TransactionRequest(BaseModel):
@@ -10,6 +14,15 @@ class TransactionRequest(BaseModel):
     qty: int
     user: str
     reason: str
+
+class User(BaseModel):
+    username: str
+    access_level: int
+    password: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
 app = FastAPI()
 
@@ -58,5 +71,22 @@ def suppliers():
     result = get_suppliers()
     return result
 
+@app.post("/users/create")
+def new_user(user: User):
+    return create_user(
+        user.username,
+        user.access_level,
+        user.password
+    )
 
+@app.post("/password/verification")
+def verify_password(user: UserLogin):
+    success, message = compare_password(
+        user.username,
+        user.password
+    )
+    return {
+        "success": success,
+        "message": message
+    }
 

@@ -2,11 +2,12 @@ name: Inventory_Infrastructure
 
 services:
 
-  endpoint:
-    container_name: endpoint
-    build: ./Endpoint
-    networks:
-      - front_network
+
+  #endpoint:
+   # container_name: endpoint
+   # build: ./Endpoint
+   # networks:
+     # - front_network
 
 
   database:

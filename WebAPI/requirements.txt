@@ -4,4 +4,4 @@ psycopg
 pydantic
 pytest
 httpx2
-argon2
+argon2-cffi
