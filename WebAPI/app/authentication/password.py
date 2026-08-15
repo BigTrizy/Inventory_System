@@ -9,6 +9,9 @@ def hash_password(password):
 
 
 def compare_password(username, user_password):
+    # This function takes a username, and the password that the user entered
+    # on login, retrieves the hash from the DB then compares them and returns
+    # whether or not they match.
     try:
         with get_connection() as connection:
             with connection.cursor() as cursor:
@@ -22,7 +25,7 @@ def compare_password(username, user_password):
                 user = cursor.fetchone()
 
                 if user is None:
-                    return False, "User doesn't exist"
+                    return False, "User doesn't exist/"
 
                 user_id = user[0]
 

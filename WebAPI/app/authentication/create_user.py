@@ -1,9 +1,11 @@
 from scripts.database import get_connection
 from scripts.authentication.password import hash_password
+from scripts.standards.standards import validate_username, normalize_username
 
 def verify_user_exist(username):
     with get_connection() as connection:
         with connection.cursor() as cursor:
+            username = normalize_username(username)
             cursor.execute(
                 """
                 SELECT * FROM users WHERE username = %s
@@ -39,14 +41,23 @@ def verify_access_level_exist(access_level):
 
 
 def create_user(username, access_level, password):
-    # The try makes it so the transaction is rolled back in case of either
-    # one of the Inserts failing or one of the verify functions
+    # The transaction is rolled back with the help of the connection() 
+    # context manager. I case of anything returning an error in the try block.
     try:
+
+        # Normalize and then verify the username. Then SQL requests to 
+        # make sure everything is valid for creation.
+        username_valid, message, username = validate_username(username)
+        if not username_valid:
+            return (False, message)
         if verify_user_exist(username):
-                return "Error: User already exists"
+            return (False, "Error: User already exists")
         if not verify_access_level_exist(access_level):
-                    return "Error: Access Level doesn't exist"
+            return (False, "Error: Access Level doesn't exist")
+
         password_hash = hash_password(password)
+
+        # User creation Queries.
         with get_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -65,8 +76,16 @@ def create_user(username, access_level, password):
                     """,
                     (user_id, password_hash)
                 )
-            return {"User Created:": username,
-                    "Access Level": access_level}
+            return (
+                True,
+                {
+                    "User Created": username,
+                    "Access Level": access_level
+                }
+            )
+        
+    # Wide net that catches any exception and throws it back. 
+    # Should eventually be more granular
     except Exception as exception:
-        return {"Error Encountered. Rollback Applied.": str(exception)}
+        return (False,{"Error Encountered. Rollback Applied.": str(exception)})
             

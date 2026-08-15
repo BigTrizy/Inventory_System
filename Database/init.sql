@@ -62,9 +62,9 @@ VALUES
 
 INSERT INTO users (username, access_level)
 VALUES
-('TrisoRO', 1),
-('TrizyRW', 2),
-('TrizyMan', 3);
+('trisoro', 1),
+('trizyrw', 2),
+('trizyman', 3);
 
 INSERT INTO suppliers (name, phone, address, description)
 VALUES 

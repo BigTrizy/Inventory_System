@@ -1,11 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from scripts.database import check_database
 from scripts.requests.get_products import get_products, search_products, search_products_id
 from scripts.requests.get_suppliers import get_suppliers
 from scripts.update_requests.update_stocks import set_product_stock 
 from scripts.authentication.create_user import create_user
 from scripts.authentication.password import compare_password
-
 
 from pydantic import BaseModel
 
@@ -25,7 +24,6 @@ class UserLogin(BaseModel):
     password: str
 
 app = FastAPI()
-
 
 @app.get("/")
 def root():
@@ -73,11 +71,20 @@ def suppliers():
 
 @app.post("/users/create")
 def new_user(user: User):
-    return create_user(
+
+    success, result = create_user(
         user.username,
         user.access_level,
         user.password
     )
+
+    if not success:
+        raise HTTPException(
+            status_code=400,
+            detail=result
+        )
+
+    return result
 
 @app.post("/password/verification")
 def verify_password(user: UserLogin):

@@ -1,0 +1,8 @@
+[username]
+min_length = 3
+max_length = 10
+spaces = false
+
+[password]
+min_length = 8
+max_length = 30
