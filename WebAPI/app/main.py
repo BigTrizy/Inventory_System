@@ -5,6 +5,7 @@ from scripts.requests.get_suppliers import get_suppliers
 from scripts.update_requests.update_stocks import set_product_stock 
 from scripts.authentication.create_user import create_user
 from scripts.authentication.password import compare_password
+from scipts.transactions_history.get_transactions import search_transactions
 
 from pydantic import BaseModel
 
@@ -22,6 +23,11 @@ class User(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+class Transaction(BaseModel):
+    product: str | None = None
+    date: str | None = None
+    time: str | None = None
 
 app = FastAPI()
 
@@ -97,3 +103,6 @@ def verify_password(user: UserLogin):
         "message": message
     }
 
+@app.get("/transactions")
+def transactions(transaction: Transaction):
+    return search_transactions(transaction)

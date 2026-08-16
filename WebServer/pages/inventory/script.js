@@ -20,7 +20,6 @@ async function loadProducts(){
 	const response = await fetch("/api/products");
 
 	const products = await response.json();
-t your update endpoint is explicitly:
 	const container = document.getElementById("products");
 
 	container.innerHTML = "";

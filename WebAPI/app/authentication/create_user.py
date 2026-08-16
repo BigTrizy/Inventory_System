@@ -55,6 +55,11 @@ def create_user(username, access_level, password):
         if not verify_access_level_exist(access_level):
             return (False, "Error: Access Level doesn't exist")
 
+        # Verification for password then if valid hash the password.
+        password_valid, message = validate_username(password)
+        if not password_valid:
+            return (False, message)
+
         password_hash = hash_password(password)
 
         # User creation Queries.

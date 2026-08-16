@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction History</title>
+</head>
+
+<body>
+
+    <a href="/">← Back</a>
+
+    <h1>Transaction History</h1>
+
+    <section>
+
+        <h2>Search Transactions</h2>
+
+        <form id="search_form">
+
+            <label for="product">
+                Product:
+            </label>
+
+            <input
+                type="text"
+                id="product"
+                name="product"
+                placeholder="Product name or SKU"
+            >
+
+            <br><br>
+
+            <label for="date">
+                Date:
+            </label>
+
+            <input
+                type="date"
+                id="date"
+                name="date"
+            >
+
+            <br><br>
+
+            <label for="time">
+                Time:
+            </label>
+
+            <input
+                type="time"
+                id="time"
+                name="time"
+            >
+
+            <br><br>
+
+            <button type="submit">
+                Search
+            </button>
+
+            <button
+                type="button"
+                id="clear_button"
+            >
+                Clear
+            </button>
+
+        </form>
+
+    </section>
+
+    <hr>
+
+    <section>
+
+        <h2>Transactions</h2>
+
+        <table border="1">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Date / Time</th>
+                    <th>Product</th>
+                    <th>Quantity Changed</th>
+                    <th>Stock Before</th>
+                    <th>Stock After</th>
+                    <th>Transaction Type</th>
+                    <th>User</th>
+                    <th>Reason</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="transaction_table">
+
+                <tr>
+                    <td colspan="9">
+                        Loading transactions...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <p id="result"></p>
+
+    <!-- Your JavaScript file -->
+    <script src="history.js"></script>
+
+</body>
+
+</html>
